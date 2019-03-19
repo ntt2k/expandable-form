@@ -1,28 +1,79 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import _ from 'lodash';
+import 'bootstrap/dist/css/bootstrap.css';
+import data from './data/dummy_JSON_new';
+import RecursiveContainer from './containers/RecursiveContainer';
+
+const AppWrapper = styled.div`
+    margin: 0 auto;
+    width: 60%;
+`;
+
+const AppTitle = styled.h1`
+    color: #3273dc;
+    text-align: center;
+`;
+
+const AppContent = styled.div`
+    padding-top: 4%;
+    padding-bottom: 4%;
+`;
+
+function recursiveCustomMergeCSRE(data, new_data) {
+    function customizer(objValue, srcValue) {
+        if (_.isArray(objValue)) {
+            return objValue.map((i) => {
+                const srcObj = _.find(srcValue, { formCid: i.formCid });
+                if (!!srcObj) {
+                    return recursiveCustomMergeCSRE(i, srcObj);
+                } else {
+                    return i;
+                }
+            });
+        }
+    }
+
+    return _.mergeWith(data, new_data, customizer);
+}
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: data
+        };
+
+        this.handleUpdate = this.handleUpdate.bind(this);
+    }
+
+    handleUpdate(new_data) {
+        const { data } = this.state;
+
+        const updated_state = recursiveCustomMergeCSRE(data, new_data);
+
+        this.setState({
+            data: updated_state
+        });
+    }
+
+    render() {
+        const { data } = this.state;
+
+        return (
+            <AppWrapper>
+                <AppTitle>React Expandable Bootstrap Form</AppTitle>
+                <AppContent>
+                    <RecursiveContainer
+                        data={data}
+                        tracker={[]}
+                        onUpdate={this.handleUpdate}
+                    />
+                </AppContent>
+            </AppWrapper>
+        );
+    }
 }
 
 export default App;

@@ -1,6 +1,12 @@
+// This must be the first line in src/index.js
+import "react-app-polyfill/ie11";
+import 'core-js/es6/promise';
+import 'core-js/es6/set';
+import 'core-js/es6/map';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
