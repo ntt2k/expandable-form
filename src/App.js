@@ -11,12 +11,13 @@ const AppWrapper = styled.div`
 `;
 
 const AppTitle = styled.h1`
+    padding-top: 20px;
     color: #3273dc;
     text-align: center;
 `;
 
 const AppContent = styled.div`
-    padding-bottom: 50px;
+    padding-bottom: 40px;
 `;
 
 function recursiveCustomMergeCSRE(data, new_data) {
