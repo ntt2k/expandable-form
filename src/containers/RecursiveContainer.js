@@ -6,7 +6,7 @@ import StringQuestion from '../components/StringQuestion';
 import MemoQuestion from '../components/MemoQuestion';
 
 const StyledRecursiveContainer = styled.div`
-    padding-top: 20px;
+    padding-top: 25px;
     padding-left: 10px;
     margin-left: 20px;
 `;

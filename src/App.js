@@ -16,8 +16,8 @@ const AppTitle = styled.h1`
 `;
 
 const AppContent = styled.div`
-    padding-top: 4%;
-    padding-bottom: 4%;
+    padding-top: 15px;
+    padding-bottom: 50px;
 `;
 
 function recursiveCustomMergeCSRE(data, new_data) {
