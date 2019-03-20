@@ -41,9 +41,7 @@ const CheckItem = (props) => {
         };
 
         const new_nested_data = tracker.reduceRight(
-            (prev, current) => {
-                return [{ formCid: current, contents: [...prev] }];
-            },
+            (prev, current) => ([{ formCid: current, contents: [...prev] }]),
             [updated_data]
         );
 
