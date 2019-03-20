@@ -21,6 +21,7 @@ const RecursiveContainer = (props) => {
                 key={item.formCid}
                 data={item}
                 tracker={[...tracker, formCid]}
+                adjacentItems={ctn.filter((i) => i.formCid !== item.formCid)}
                 onUpdate={onUpdate}
             />
         ));

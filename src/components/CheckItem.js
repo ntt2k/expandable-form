@@ -1,48 +1,55 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-function recursiveUpdateProperty(property, value, data) {
-    const { type, contents } = data;
-    let new_contents = contents;
-
-    if (
-        type === 'plaintext' ||
-        type === 'stringquestion' ||
-        type === 'memoquestion'
-    ) {
-        new_contents = contents.map((item) =>
-            recursiveUpdateProperty(property, value, item)
-        );
-    }
+function recursiveUpdateShowForCheckItem(val, data) {
+    const { contents } = data;
 
     return {
         ...data,
-        [property]: value,
-        contents: new_contents
+        value: val,
+        contents: contents.map((item) => ({
+            ...item,
+            show: val,
+            contents: item.contents.map((i) => {
+                if (
+                    i.type === 'plaintext' ||
+                    i.type === 'stringquestion' ||
+                    i.type === 'memoquestion'
+                ) {
+                    return {
+                        ...i,
+                        show: val,
+                        contents: i.contents.map((k) =>
+                            recursiveUpdateShowForCheckItem(val, k)
+                        )
+                    };
+                }
+
+                // other type: radio and checkbox
+                return {
+                    ...i,
+                    show: val
+                };
+            })
+        }))
     };
 }
 
 const CheckItem = (props) => {
-    const { data, tracker, onUpdate, onShowContents } = props;
+    const { data, tracker, adjacentItems, onUpdate, onShowContents } = props;
     const { formCid, type, required, value, show, contents, text } = data;
 
-    const handleUpdateShow = (val) => {
-        const updated_data = {
-            ...data,
-            contents: contents.map((item) => {
-                return {
-                    ...item,
-                    show: val,
-                    contents: item.contents.map((i) =>
-                        recursiveUpdateProperty('show', val, i)
-                    )
-                };
-            })
-        };
+    const handleUpdateShow = (v) => {
+        const current_updated_item = recursiveUpdateShowForCheckItem(v, data);
+
+        const disable_adjacent_items =
+            type === 'radio'
+                ? adjacentItems.map((i) => recursiveUpdateShowForCheckItem(!v, i))
+                : [];
 
         const new_nested_data = tracker.reduceRight(
-            (prev, current) => ([{ formCid: current, contents: [...prev] }]),
-            [updated_data]
+            (prev, current) => [{ formCid: current, contents: [...prev] }],
+            [...disable_adjacent_items, current_updated_item]
         );
 
         onUpdate(new_nested_data[0]);
@@ -57,6 +64,7 @@ const CheckItem = (props) => {
                         id={formCid}
                         label={text}
                         value={value}
+                        checked={value}
                         onClick={(event) =>
                             handleUpdateShow(event.target.checked)
                         }
