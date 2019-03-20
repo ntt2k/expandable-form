@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-function recursiveUpdateShow(isChecked, data) {
+function recursiveUpdateProperty(property, value, data) {
     const { type, contents } = data;
     let new_contents = contents;
 
@@ -11,13 +11,13 @@ function recursiveUpdateShow(isChecked, data) {
         type === 'memoquestion'
     ) {
         new_contents = contents.map((item) =>
-            recursiveUpdateShow(isChecked, item)
+            recursiveUpdateProperty(property, value, item)
         );
     }
 
     return {
         ...data,
-        show: isChecked,
+        [property]: value,
         contents: new_contents
     };
 }
@@ -26,28 +26,28 @@ const CheckItem = (props) => {
     const { data, tracker, onUpdate, onShowContents } = props;
     const { formCid, type, required, value, show, contents, text } = data;
 
-    const handleUpdateShow = (isChecked) => {
+    const handleUpdateShow = (val) => {
         const updated_data = {
             ...data,
             contents: contents.map((item) => {
                 return {
                     ...item,
-                    show: isChecked,
-                    contents: item.contents.map((k) =>
-                        recursiveUpdateShow(isChecked, k)
+                    show: val,
+                    contents: item.contents.map((i) =>
+                        recursiveUpdateProperty('show', val, i)
                     )
                 };
             })
         };
 
-        const new_nested_data = tracker.reverse().reduce(
+        const new_nested_data = tracker.reduceRight(
             (prev, current) => {
                 return [{ formCid: current, contents: [...prev] }];
             },
             [updated_data]
-        )[0];
+        );
 
-        onUpdate(new_nested_data);
+        onUpdate(new_nested_data[0]);
     };
 
     return (
