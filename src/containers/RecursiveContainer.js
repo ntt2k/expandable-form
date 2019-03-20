@@ -75,7 +75,11 @@ const RecursiveContainer = (props) => {
 
     return (
         show && (
-            <StyledRecursiveContainer>{showType()}</StyledRecursiveContainer>
+            <StyledRecursiveContainer>
+                <p>{`formCid: ${formCid}`}</p>
+                <p>{`This is a ${type}`}</p>
+                {showType()}
+            </StyledRecursiveContainer>
         )
     );
 };

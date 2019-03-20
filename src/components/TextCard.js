@@ -14,13 +14,9 @@ const TextCard = (props) => {
     return (
         <React.Fragment>
             {show && (
-                <React.Fragment>
-                    <p>{`formCid: ${formCid}`}</p>
-                    <p>{`This is a ${type}`}</p>
-                    <Card>
-                        <StyledCardBody>{text}</StyledCardBody>
-                    </Card>
-                </React.Fragment>
+                <Card>
+                    <StyledCardBody>{text}</StyledCardBody>
+                </Card>
             )}
 
             {onShowContents(contents)}

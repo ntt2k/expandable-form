@@ -6,13 +6,7 @@ const MemoQuestion = (props) => {
 
     return (
         <React.Fragment>
-            {show && (
-                <React.Fragment>
-                    <p>{`formCid: ${formCid}`}</p>
-                    <p>{`This is a ${type}`}</p>
-                    <p>{text}</p>
-                </React.Fragment>
-            )}
+            {show && <p>{text}</p>}
 
             {onShowContents(contents)}
         </React.Fragment>

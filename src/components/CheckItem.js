@@ -54,8 +54,6 @@ const CheckItem = (props) => {
         <React.Fragment>
             {show && (
                 <Form>
-                    <p>{`formCid: ${formCid}`}</p>
-                    <p>{`This is a ${type}`}</p>
                     <Form.Check
                         type={type}
                         id={formCid}
