@@ -27,33 +27,17 @@ const RecursiveContainer = (props) => {
 
     const showType = () => {
         if (type === 'plaintext') {
-            return (
-                <TextCard
-                    data={data}
-                    tracker={tracker}
-                    onUpdate={onUpdate}
-                    onShowContents={handleShowContents}
-                />
-            );
+            return <TextCard {...props} onShowContents={handleShowContents} />;
         }
 
         if (type === 'radio' || type === 'checkbox') {
-            return (
-                <CheckItem
-                    data={data}
-                    tracker={tracker}
-                    onUpdate={onUpdate}
-                    onShowContents={handleShowContents}
-                />
-            );
+            return <CheckItem {...props} onShowContents={handleShowContents} />;
         }
 
         if (type === 'stringquestion') {
             return (
                 <StringQuestion
-                    data={data}
-                    tracker={tracker}
-                    onUpdate={onUpdate}
+                    {...props}
                     onShowContents={handleShowContents}
                 />
             );
@@ -61,12 +45,7 @@ const RecursiveContainer = (props) => {
 
         if (type === 'memoquestion') {
             return (
-                <MemoQuestion
-                    data={data}
-                    tracker={tracker}
-                    onUpdate={onUpdate}
-                    onShowContents={handleShowContents}
-                />
+                <MemoQuestion {...props} onShowContents={handleShowContents} />
             );
         }
 
