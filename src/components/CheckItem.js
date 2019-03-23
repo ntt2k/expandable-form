@@ -44,7 +44,9 @@ const CheckItem = (props) => {
 
         const disable_adjacent_items =
             type === 'radio'
-                ? adjacentItems.map((i) => recursiveUpdateShowForCheckItem(!v, i))
+                ? adjacentItems.map((i) =>
+                      recursiveUpdateShowForCheckItem(!v, i)
+                  )
                 : [];
 
         const new_nested_data = tracker.reduceRight(
@@ -58,18 +60,14 @@ const CheckItem = (props) => {
     return (
         <React.Fragment>
             {show && (
-                <Form>
-                    <Form.Check
-                        type={type}
-                        id={formCid}
-                        label={text}
-                        value={value}
-                        checked={value}
-                        onClick={(event) =>
-                            handleUpdateShow(event.target.checked)
-                        }
-                    />
-                </Form>
+                <Form.Check
+                    type={type}
+                    id={formCid}
+                    label={text}
+                    value={value}
+                    checked={value}
+                    onClick={(event) => handleUpdateShow(event.target.checked)}
+                />
             )}
 
             {onShowContents(contents)}
