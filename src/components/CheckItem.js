@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 
-function recursiveUpdateShowForCheckItem(val, data) {
+function updateValue(val, data) {
     const { contents } = data;
 
     return {
@@ -11,28 +11,30 @@ function recursiveUpdateShowForCheckItem(val, data) {
         contents: contents.map((item) => ({
             ...item,
             show: val,
-            contents: item.contents.map((i) => {
-                if (
-                    i.type === 'plaintext' ||
-                    i.type === 'stringquestion' ||
-                    i.type === 'memoquestion'
-                ) {
-                    return {
-                        ...i,
-                        show: val,
-                        contents: i.contents.map((k) =>
-                            recursiveUpdateShowForCheckItem(val, k)
-                        )
-                    };
-                }
-
-                // other type: radio and checkbox
-                return {
-                    ...i,
-                    show: val
-                };
-            })
+            contents: item.contents.map((i) => recursiveUpdateShow(val, i))
         }))
+    };
+}
+
+function recursiveUpdateShow(val, i) {
+    if (
+        i.type === 'plaintext' ||
+        i.type === 'stringquestion' ||
+        i.type === 'memoquestion'
+    ) {
+        return {
+            ...i,
+            show: val,
+            contents: i.contents.map((k) =>
+                recursiveUpdateShow(val, k)
+            )
+        };
+    }
+
+    // other type: radio and checkbox
+    return {
+        ...i,
+        show: val,
     };
 }
 
@@ -41,12 +43,12 @@ const CheckItem = (props) => {
     const { formCid, type, required, value, show, contents, text } = data;
 
     const handleUpdateShow = (v) => {
-        const current_updated_item = recursiveUpdateShowForCheckItem(v, data);
+        const current_updated_item = updateValue(v, data);
 
         const disable_adjacent_items =
             type === 'radio'
                 ? adjacentItems.map((i) =>
-                      recursiveUpdateShowForCheckItem(!v, i)
+                    updateValue(!v, i)
                   )
                 : [];
 
