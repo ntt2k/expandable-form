@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TextCard from '../components/TextCard';
 import CheckItem from '../components/CheckItem';
@@ -63,5 +64,11 @@ const RecursiveContainer = (props) => {
         )
     );
 };
+
+RecursiveContainer.propTypes = {
+    data: PropTypes.object.isRequired,
+    tracker: PropTypes.array.isRequired,
+    onUpdate: PropTypes.func.isRequired
+}
 
 export default RecursiveContainer;

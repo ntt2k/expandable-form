@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 
 function recursiveUpdateShowForCheckItem(val, data) {
@@ -66,7 +67,7 @@ const CheckItem = (props) => {
                     label={text}
                     value={value}
                     checked={value}
-                    onClick={(event) => handleUpdateShow(event.target.checked)}
+                    onChange={(event) => handleUpdateShow(event.target.checked)}
                 />
             )}
 
@@ -74,5 +75,13 @@ const CheckItem = (props) => {
         </React.Fragment>
     );
 };
+
+CheckItem.propTypes = {
+    data: PropTypes.object.isRequired,
+    tracker: PropTypes.array.isRequired,
+    adjacentItems: PropTypes.array,
+    onUpdate: PropTypes.func.isRequired,
+    onShowContents: PropTypes.func.isRequired
+}
 
 export default CheckItem;

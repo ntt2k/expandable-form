@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Card } from 'react-bootstrap';
 
@@ -9,7 +10,7 @@ const StyledCardBody = styled(Card.Body)`
 
 const TextCard = (props) => {
     const { data, onShowContents } = props;
-    const { formCid, type, required, value, show, contents, text } = data;
+    const { show, contents, text } = data;
 
     return (
         <React.Fragment>
@@ -23,5 +24,10 @@ const TextCard = (props) => {
         </React.Fragment>
     );
 };
+
+TextCard.propTypes = {
+    data: PropTypes.object.isRequired,
+    onShowContents: PropTypes.func.isRequired
+}
 
 export default TextCard;

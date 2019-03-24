@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const StringQuestion = (props) => {
     const { data, onShowContents } = props;
-    const { formCid, type, required, value, show, contents, text } = data;
+    const { show, contents, text } = data;
 
     return (
         <React.Fragment>
@@ -12,5 +13,10 @@ const StringQuestion = (props) => {
         </React.Fragment>
     );
 };
+
+StringQuestion.propTypes = {
+    data: PropTypes.object.isRequired,
+    onShowContents: PropTypes.func.isRequired
+}
 
 export default StringQuestion;
